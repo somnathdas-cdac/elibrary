@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Book Directory</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        .alphabet-container { margin-bottom: 20px; }
+        .letter-link { display: inline-block; padding: 8px 12px; margin-right: 5px; background-color: #f0f0f0; text-decoration: none; color: #333; border: 1px solid #ccc; border-radius: 4px; }
+        .letter-link:hover { background-color: #ddd; }
+        .active-letter { background-color: #007bff; color: white; border-color: #007bff; }
+        .active-letter:hover { background-color: #007bff; }
+        table { width: 100%; border-collapse: collapse; margin-top: 100px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+
+    <!-- Results Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Book Title</th>
+                <th>Author Name</th>
+                <th>Creator</th>
+                <th>Subject</th>
+                <th>Author</th>
+                <th>Total Page</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.id}">1</td>
+                <td> <a th:href="@{/books/details/{id}(id=${book.id})}" target="_blank" th:text="${book.title}">Book Title</a></td>
+                <td th:text="${book.author}">Author Name</td>
+                <td th:text="${book.creator}">Creator</td>
+                <td th:text="${book.subject}">Subject</td>
+                <td th:text="${book.library}">Library</td>
+                <td th:text="${book.totalPages}">Total Page</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(books)}">
+                <td colspan="3" style="text-align: center; color: #777;">No books found starting with this letter.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
+

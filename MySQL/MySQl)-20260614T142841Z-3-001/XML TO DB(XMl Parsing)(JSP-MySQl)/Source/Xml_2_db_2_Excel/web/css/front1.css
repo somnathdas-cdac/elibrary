@@ -1,0 +1,47 @@
+/* 
+    Document   : front1
+    Created on : 21 Jan, 2014, 11:58:58 AM
+    Author     : somnath
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+body
+{
+margin:0px auto;
+padding:0px;
+font-family: Verdana, Arial, Helvetica, sans-serif;
+color:#fff;
+/*color:#003399;*/
+line-height:16px;
+/*background:url(../images/pattern.jpg) left top repeat;*/
+background:#FFFF99;
+text-align:justify;
+font-size:12px;
+}
+.index-body
+{
+background:#002b1a;
+
+}
+.header_dvd_no{
+    
+   background:#83ACFF; 
+   font-size:12px;
+   color:#333300;
+   
+}
+.servlet_dspl{
+    font-size:14px;
+   color:#333300;
+}
+.servlet_db_result{
+   font-size:14px;
+   color:#333300;
+   background-color:#CC6633;
+}

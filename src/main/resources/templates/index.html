@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Book Directory</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        .alphabet-container { margin-bottom: 20px; }
+        .letter-link { display: inline-block; padding: 8px 12px; margin-right: 5px; background-color: #f0f0f0; text-decoration: none; color: #333; border: 1px solid #ccc; border-radius: 4px; }
+        .letter-link:hover { background-color: #ddd; }
+        .active-letter { background-color: #007bff; color: white; border-color: #007bff; }
+        .active-letter:hover { background-color: #007bff; }
+        table { width: 100%; border-collapse: collapse; margin-top: 100px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+    <h2>Book Directory Search</h2>
+
+    <!-- A to Z Navigation Links -->
+    <div class="alphabet-container">
+        <a href="/books" class="letter-link" th:classappend="${selectedLetter == null} ? 'active-letter'">All</a>
+        
+        <a th:each="l : ${alphabet}" 
+           th:href="@{/books(letter=${l})}" 
+           th:text="${l}"
+           class="letter-link"
+           th:classappend="${selectedLetter == l} ? 'active-letter'">
+        </a>
+    </div>
+
+    <h3 th:if="${selectedLetter}" th:text="'Results starting with: ' + ${selectedLetter}"></h3>
+
+    <!-- Results Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Book Title</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.id}">1</td>
+                <td th:text="${book.title}">Book Title</td>
+                <td th:text="${book.author}">Author Name</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(books)}">
+                <td colspan="3" style="text-align: center; color: #777;">No books found starting with this letter.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
+

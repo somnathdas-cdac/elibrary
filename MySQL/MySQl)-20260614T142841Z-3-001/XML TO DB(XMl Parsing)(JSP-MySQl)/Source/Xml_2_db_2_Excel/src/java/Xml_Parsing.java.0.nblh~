@@ -1,0 +1,434 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.*;
+
+/**
+ *
+ * @author somnath
+ */
+@WebServlet(name = "Xml_Parsing", urlPatterns = {"/Xml_Parsing"})
+public class Xml_Parsing extends HttpServlet {
+
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        
+        
+            try {
+                
+         //----------------DATABASE CONNECTION----------------------------------------
+        //----------------------------------------------------------------------------------------------------------------------------
+        // Class.forName("com.mysql.jdbc.Driver");
+        //Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/struts_app","root", "");
+      // Statement stmt=con.createStatement();
+       //-------------------------------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------------------
+        
+        
+    out.print("ffffffffffffffffff");
+            
+        
+            
+          if(request.getParameter("Submit")!= "null")
+              
+            {
+                out.print("ttttttttttttttttf");
+                
+                String directory_path;
+               // String language,title,singer,lyricist,composer,songtype,copyright,accessionno,recordno,recordslno,recordtype,recorddate,source,digitizeby,format;
+               
+                String v;
+                
+                directory_path="H://VB Audio Song at 23-12-2013//Vb_Song_Xml_upload";
+                
+               // File input_file= new File(directory_path);
+                
+              // if(input_file.exists()&&input_file.isDirectory()) 
+                   
+               //{
+                  /* 
+            File[] list_of_xml_file=input_file.listFiles(); 
+            
+            int i, number=list_of_xml_file.length;
+               out.println(number);
+                            
+               
+            for(i=0;i<=number;i++)
+                
+                //for( fXmlFile:list_of_xml_file)
+                {
+                
+             File fXmlFile=list_of_xml_file[i];
+             
+             out.println(fXmlFile);
+            /* TODO output your page here
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Xml_Parsing</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Xml_Parsing at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+             */
+           DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance(); 
+           DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+           
+           
+     //*****************XML PARSING***********************-----------------------------------------------------------
+                
+              File parent_dir= new File(directory_path);  
+             File[] file1 = parent_dir.listFiles();
+           for (File  file : file1)  
+                   
+    // for (File file : new File(directory_path).listFiles()) 
+{
+   //Document doc = builder.parse(file.getAbsolutePath());
+    
+                   
+                  out.println(file);  
+                   
+                   
+                Document doc = dBuilder.parse(file);   
+                   
+              doc.getDocumentElement().normalize(); 
+              
+              
+              String rootNode =  doc.getDocumentElement().getNodeName();
+              NodeList bookslist = doc.getElementsByTagName(rootNode);
+              
+               XPath xPath =  XPathFactory.newInstance().newXPath();
+               
+              
+       //--------------------------------------------language TAG PARSING--------------------------------------------------
+               
+                String expression_language = "/dublincore/language";
+               NodeList nodeList_language = (NodeList) xPath.compile(expression_language).evaluate(doc, XPathConstants.NODESET);
+               if(nodeList_language.getLength()>=1)
+               {
+               for (int i = 0; i < nodeList_language.getLength(); i++) {
+              out.println(nodeList_language.item(i).getFirstChild().getNodeValue());
+          String   language= nodeList_language.item(i).getFirstChild().getNodeValue();
+          
+          out.print( language);
+              out.print("<br/>");
+               }
+            }
+             
+      //--------------------------------- language TAG PARSING END--------------------------------------------------   
+               String expression_title = "/dublincore/title";
+               NodeList nodeList_title = (NodeList) xPath.compile(expression_title).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_title.getLength(); i++) {
+             // out.println(nodeList_title.item(i).getFirstChild().getNodeValue());
+           String  title=nodeList_title.item(i).getFirstChild().getNodeValue();
+            out.print( title);
+              out.print("<br/>");
+            }
+               
+       //---------------------------------------TITLE TAG PARSING END-------------------------------------------------
+               
+                String expression_singer = "/dublincore/singer";
+               NodeList nodeList_singer = (NodeList) xPath.compile(expression_singer).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_title.getLength(); i++) {
+             // out.println(nodeList_title.item(i).getFirstChild().getNodeValue());
+           String  singer=nodeList_singer.item(i).getFirstChild().getNodeValue();
+            out.print( singer);
+              out.print("<br/>");
+            }
+              
+               
+               /*
+                String expression_singer = "/dublincore/singer";
+               NodeList nodeList_singer = (NodeList) xPath.compile(expression_singer).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_singer.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+            String  singer=nodeList_singer.item(i).getFirstChild().getNodeValue();
+            
+             out.print( singer);
+              out.print("<br/>");
+            }
+                * */
+                
+               
+       //------------------------------------- singer TAG ENDING----------------------------------------------------------    
+               /*
+                String expression_lyricist = "/dublincore/lyricist";
+               NodeList nodeList_lyricist = (NodeList) xPath.compile(expression_lyricist).evaluate(doc, XPathConstants.NODESET);
+               
+               if(nodeList_lyricist.getLength()>0)
+               {
+               for (int i = 0; i < nodeList_lyricist.getLength(); i++) {
+             // out.println(nodeList_title.item(i).getFirstChild().getNodeValue());
+           String  title=nodeList_lyricist.item(i).getFirstChild().getNodeValue();
+            out.print( title);
+              out.print("<br/>");
+               }
+            }
+                out.println("*************************");
+        //---------------------------lyricist TAG END--------------------------------------------------------------------------
+           
+               
+               /*
+                String expression_composer = "/dublincore/composer";
+               NodeList nodeList_composer = (NodeList) xPath.compile(expression_composer).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_composer.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+             String composer=nodeList_composer.item(i).getFirstChild().getNodeValue();
+              out.print("<br/>");
+            }
+     //---------------------composer TAG END--------------------------------------------------------------------------          
+               
+                String expression_songtype = "/dublincore/songtype";
+               NodeList nodeList_songtype = (NodeList) xPath.compile(expression_songtype).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_songtype.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+            String  songtype=nodeList_songtype.item(i).getFirstChild().getNodeValue();
+              out.print("<br/>");
+            }
+               
+      //-----------------------songtype TAG END---------------------------------------------------------------------      
+           
+              String expression_copyright = "/dublincore/copyright";
+               NodeList nodeList_copyright = (NodeList) xPath.compile(expression_copyright).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_copyright.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+          String  copyright=nodeList_songtype.item(i).getFirstChild().getNodeValue();
+              out.print("<br/>");
+            }
+               
+      //-----------------------copyright TAG END---------------------------------------------------------------------     
+              
+              String expression_accessionno = "/dublincore/accessionno";
+               NodeList nodeList_accessionno = (NodeList) xPath.compile(expression_accessionno).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_accessionno.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+           String   accessionno=nodeList_accessionno.item(i).getFirstChild().getNodeValue();
+              out.print("<br/>");
+            }
+               
+      //-----------------------copyright TAG END---------------------------------------------------------------------  
+               
+           String expression_recordno = "/dublincore/recordno";
+               NodeList nodeList_recordno = (NodeList) xPath.compile(expression_recordno).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_recordno.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+          String    recordno=nodeList_recordno.item(i).getFirstChild().getNodeValue();
+              out.print("<br/>");
+            }
+               
+      //-----------------------recordno TAG END---------------------------------------------------------------------       
+               
+             String expression_recordslno = "/dublincore/recordslno";
+               NodeList nodeList_recordslno = (NodeList) xPath.compile(expression_recordslno).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_recordslno.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+          String    recordslno=nodeList_recordslno.item(i).getFirstChild().getNodeValue();
+              out.print("<br/>");
+            }
+               
+      //-----------------------recordslno TAG END---------------------------------------------------------------------  
+               
+                  String expression_recordtype = "/dublincore/recordtype";
+               NodeList nodeList_recordtype = (NodeList) xPath.compile(expression_recordtype).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_recordtype.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+          String    recordtype=nodeList_recordtype.item(i).getFirstChild().getNodeValue();
+              out.print("<br/>");
+            }
+               
+      //-----------------------recordtype TAG END--------------------------------------------------------------------- 
+            
+               
+                  String expression_recorddate = "/dublincore/recorddate";
+               NodeList nodeList_recorddate = (NodeList) xPath.compile(expression_recorddate).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_recordtype.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+         String     recorddate=nodeList_recorddate.item(i).getFirstChild().getNodeValue();
+              out.print("<br/>");
+            }
+               
+      //-----------------------recorddate TAG END--------------------------------------------------------------------- 
+               
+               
+                  String expression_source = "/dublincore/source";
+               NodeList nodeList_source = (NodeList) xPath.compile(expression_source).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_source.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+         String     source=nodeList_source.item(i).getFirstChild().getNodeValue();
+              out.print("<br/>");
+            }
+               
+      //-----------------------recorddate TAG END--------------------------------------------------------------------- 
+               
+                  String expression_digitizeby = "/dublincore/digitizeby";
+               NodeList nodeList_digitizeby = (NodeList) xPath.compile(expression_digitizeby).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_digitizeby.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+          String    digitizeby=nodeList_digitizeby.item(i).getFirstChild().getNodeValue();
+              out.print("<br/>");
+            }
+               
+      //-----------------------digitizeby TAG END--------------------------------------------------------------------- 
+               String v1;
+                  String expression_format = "/dublincore/format";
+               NodeList nodeList_format = (NodeList) xPath.compile(expression_format).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_format.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+           String format=nodeList_format.item(i).getFirstChild().getNodeValue();
+              out.print("<br/>");
+              v1=format;
+              
+            }
+                out.print("<br/>");
+              // out.print(v1);
+      //-----------------------format TAG END--------------------------------------------------------------------- 
+               
+                  String expression_digitizedate = "/dublincore/digitizedate";
+               NodeList nodeList_digitizedate = (NodeList) xPath.compile(expression_digitizedate).evaluate(doc, XPathConstants.NODESET);
+               
+               for (int i = 0; i < nodeList_digitizedate.getLength(); i++) {
+             // out.println(nodeList_singer.item(i).getFirstChild().getNodeValue());
+            String  digitizedate=nodeList_digitizedate.item(i).getFirstChild().getNodeValue();
+              out.print("<br/>");
+              
+            }
+               
+      //-----------------------recorddate TAG END--------------------------------------------------------------------- 
+               
+               
+               
+               
+          String Query;
+          
+       //   Query="INSERT INTO xml_2_xls_tb(language,title,singer,lyricist,composer,songtype,copyright,accessionno,recordno,recordslno,recordtype,recorddate,source,digitizeby,format,digitizedate) VALUES('"+language+"','"+title+"','"+singer+"','"+lyricist+"','"+composer+"','"+songtype+"','"+copyright+"','"+accessionno+"','"+recordno+"','"+recordtype+"','"+recorddate+"','"+source+"','"+digitizeby+"','"+format+"')"; 
+               
+          // stmt.executeUpdate(Query);    
+              
+//String language= (String) ((Element) bookslist.item(0)).getElementsByTagName("language").item(0).getChildNodes().item(0).getNodeValue();
+          /*         
+       //File fXmlFile1 = new File("H:/VB Audio Song at 23-12-2013/Side-1/Akash Hotey Khoslo Tara.xml");
+         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	Document doc = dBuilder.parse(file);
+	//Document doc = dBuilder.parse(fXmlFile1);
+        doc.getDocumentElement().normalize();
+        
+        //------------------------------------------------------------------------
+        
+        
+        String rootNode =  doc.getDocumentElement().getNodeName();
+        NodeList bookslist = doc.getElementsByTagName(rootNode); 
+      //-------------------------------------------------------------------------------
+        
+        String language= (String) ((Element) bookslist.item(0)).getElementsByTagName("language").item(0).getChildNodes().item(0).getNodeValue();
+         String title= (String) ((Element) bookslist.item(0)).getElementsByTagName("title").item(0).getChildNodes().item(0).getNodeValue();
+        //String language= doc.getElementsByTagName("language").toString();
+        
+     //-------------------------------------------------------------------------------------------------------------------------//
+            
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Xml_Parsing</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Language is....... " + language + "</h1>");
+            out.println("<h1>Title is...... " + title + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+            */
+                }
+            
+              // }
+            
+            
+            }  
+            
+            
+        }catch (Exception e) {
+            e.printStackTrace();
+    } finally {            
+            out.close();
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /** 
+     * Handles the HTTP <code>GET</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /** 
+     * Handles the HTTP <code>POST</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /** 
+     * Returns a short description of the servlet.
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+}

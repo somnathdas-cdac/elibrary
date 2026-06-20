@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Book Metadata Details</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f9f9f9; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h2 { color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background-color: #f8f9fa; width: 35%; font-weight: bold; color: #555; }
+        td { color: #333; }
+        .back-btn { display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; }
+        .back-btn:hover { background-color: #5a6268; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Book Metadata Details</h2>
+    
+    <!-- Table displaying single book metadata -->
+    <table>
+        <tr>
+            <th>Book ID</th>
+            <td th:text="${detailMatadata.id}">123</td>
+        </tr>
+        <tr>
+            <th>Book Title</th>
+            <td th:text="${detailMatadata.title}">Sample Title</td>
+        </tr>
+        <tr>
+            <th>Author Name</th>
+            <td th:text="${detailMatadata.author}">Sample Author</td>
+        </tr>
+        <tr>
+            <th>Creator</th>
+            <td th:text="${detailMatadata.creator}">Sample Creator</td>
+        </tr>
+        <tr>
+            <th>Subject</th>
+            <td th:text="${detailMatadata.subject}">Sample Subject</td>
+        </tr>
+        <tr>
+            <th>Library / Publisher</th>
+            <td th:text="${detailMatadata.library}">Sample Library</td>
+        </tr>
+        <tr>
+            <th>Total Pages</th>
+            <td th:text="${detailMatadata.totalPages}">0</td>
+        </tr>
+        
+        <tr>
+        	<th>Click here to view Pdf</th>
+        	<td ><a th:href="@{/view-pdf/{id}(id=${detailMatadata.id})}" class="btn btn-primary">
+             PDF Show</a></td>
+
+        	
+        </tr>
+    </table>
+
+    <!-- Optional button to close the tab or go back -->
+    <a href="javascript:window.close();" class="back-btn">Close Window</a>
+</div>
+
+</body>
+</html>
