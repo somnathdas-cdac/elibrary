@@ -22,6 +22,8 @@ services:
     depends_on:
       - mysqldb
     environment:
+      # Fixes the port binding mismatch
+      SERVER_PORT: 8087
       # Overrides localhost to target the mysql container instance securely
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/elibrary?allowPublicKeyRetrieval=true&useSSL=false
 
