@@ -13,9 +13,10 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pSom1234567"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   web-app:
     image: somnath020/my-app:latest
@@ -32,6 +33,10 @@ services:
       MYSQL_DATABASE: elibrary
       MYSQL_USER: root
       MYSQL_PASSWORD: Som1234567
+      # Added standard Spring Boot database link strings
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysqldb:3306/elibrary?allowPublicKeyRetrieval=true&useSSL=false"
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "Som1234567"
 
 volumes:
   mysql-data:
