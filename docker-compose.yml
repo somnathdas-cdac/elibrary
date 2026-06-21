@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: elibrary-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "Som1234567"
+      MYSQL_DATABASE: "elibrary"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  web-app:
+    image: somnath020/my-app:latest
+    container_name: my-running-app
+    restart: always
+    ports:
+      - "8087:8080"  # Exposes the app on Port 8087 to the browser
+    depends_on:
+      - mysqldb
+    environment:
+      # Overrides localhost to target the mysql container instance securely
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/elibrary?allowPublicKeyRetrieval=true&useSSL=false
+
+volumes:
+  mysql-data:
