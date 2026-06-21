@@ -9,9 +9,12 @@ services:
       MYSQL_DATABASE: "elibrary"
       MYSQL_ROOT_PASSWORD: "Som1234567"
     ports:
-      - "3306:3306"
+      # CHANGED: Map host port 3307 to container port 3306 to bypass your other app
+      - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    networks:
+      - elibrary-network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pSom1234567"]
       interval: 10s
@@ -27,16 +30,20 @@ services:
     depends_on:
       mysqldb:
         condition: service_healthy
+    networks:
+      - elibrary-network
+    entrypoint: ["sh", "-c", "sleep 15 && java -jar app.jar"]
     environment:
       SERVER_PORT: 8087
       MYSQL_HOST: mysqldb
+      # Note: web-app still targets internal port 3306 because it's inside the Docker network layout!
       MYSQL_DATABASE: elibrary
       MYSQL_USER: root
       MYSQL_PASSWORD: Som1234567
-      # Added standard Spring Boot database link strings
-      SPRING_DATASOURCE_URL: "jdbc:mysql://mysqldb:3306/elibrary?allowPublicKeyRetrieval=true&useSSL=false"
-      SPRING_DATASOURCE_USERNAME: "root"
-      SPRING_DATASOURCE_PASSWORD: "Som1234567"
 
 volumes:
   mysql-data:
+
+networks:
+  elibrary-network:
+    driver: bridge
