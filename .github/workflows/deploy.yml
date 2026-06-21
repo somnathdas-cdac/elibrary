@@ -18,7 +18,6 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      # Compiles your pom.xml and processes Lombok annotations safely
       - name: Build Java JAR with Maven
         run: mvn clean package -DskipTests
 
@@ -42,6 +41,14 @@ jobs:
       - name: Checkout Code to copy configuration
         uses: actions/checkout@v4
 
+      - name: Prepare Remote App Directory
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.OCI_VM_IP }}
+          username: ${{ secrets.OCI_VM_USER }}
+          key: ${{ secrets.OCI_SSH_KEY }}
+          script: mkdir -p ~/app/
+
       - name: Copy docker-compose.yml to OCI VM
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -62,4 +69,3 @@ jobs:
             cd ~/app
             docker compose pull
             docker compose up -d --remove-orphans
-
