@@ -6,29 +6,32 @@ services:
     container_name: elibrary-mysql
     restart: always
     environment:
-      MYSQL_HOST=mysqldb
       MYSQL_DATABASE: "elibrary"
-      MYSQL_USER=root
       MYSQL_ROOT_PASSWORD: "Som1234567"
-      
     ports:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
   web-app:
     image: somnath020/my-app:latest
     container_name: my-running-app
     restart: always
     ports:
-      - "8087:8087"  # Exposes the app on Port 8087 to the browser
+      - "8087:8087"
     depends_on:
-      - mysqldb
+      mysqldb:
+        condition: service_healthy
     environment:
-      # Fixes the port binding mismatch
       SERVER_PORT: 8087
-      # Overrides localhost to target the mysql container instance securely
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/elibrary?allowPublicKeyRetrieval=true&useSSL=false
+      MYSQL_HOST: mysqldb
+      MYSQL_DATABASE: elibrary
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Som1234567
 
 volumes:
   mysql-data:
