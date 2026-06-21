@@ -18,7 +18,7 @@ services:
     container_name: my-running-app
     restart: always
     ports:
-      - "8087:8080"  # Exposes the app on Port 8087 to the browser
+      - "8087:8087"  # Exposes the app on Port 8087 to the browser
     depends_on:
       - mysqldb
     environment:
