@@ -41,14 +41,6 @@ jobs:
       - name: Checkout Code to copy configuration
         uses: actions/checkout@v4
 
-      - name: Prepare Remote App Directory
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.OCI_VM_IP }}
-          username: ${{ secrets.OCI_VM_USER }}
-          key: ${{ secrets.OCI_SSH_KEY }}
-          script: mkdir -p ~/app/
-
       - name: Copy docker-compose.yml to OCI VM
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -56,7 +48,9 @@ jobs:
           username: ${{ secrets.OCI_VM_USER }}
           key: ${{ secrets.OCI_SSH_KEY }}
           source: "docker-compose.yml"
-          target: "~/app/"
+          target: "app" # Cleaned target (removes ~/ and trailing slash to prevent SCP plugin sync failures)
+          overwrite: true
+          timeout: 30s
 
       - name: Execute Remote SSH Deployment
         uses: appleboy/ssh-action@v1.0.3
@@ -64,7 +58,11 @@ jobs:
           host: ${{ secrets.OCI_VM_IP }}
           username: ${{ secrets.OCI_VM_USER }}
           key: ${{ secrets.OCI_SSH_KEY }}
+          connect_timeout: 30s
+          keepalive_interval: 10s
           script: |
+            # Consolidate directory setup and login execution cleanly
+            mkdir -p ~/app
             echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin
             cd ~/app
             docker compose pull
