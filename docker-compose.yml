@@ -1,4 +1,4 @@
-version: '3.8'
+#version: '3.8'
 
 services:
   mysqldb:
@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: "Som1234567"
     ports:
       # CHANGED: Map host port 3307 to container port 3306 to bypass your other app
-      - "3307:3306"
+      - "3307:3307"
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
