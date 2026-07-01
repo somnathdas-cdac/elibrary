@@ -16,6 +16,20 @@
 </head>
 <body>
 
+    <!-- 1. Insert Header -->
+    <div th:replace="~{fragments/header :: header-panel}"></div>
+    
+     <!-- 2. Insert Left Sidebar Panel -->
+    <div th:replace="~{fragments/sidebar :: sidebar-panel}"></div>
+
+
+
+
+	 <main style="margin-left: 280px; padding: 15px;">
+
+
+
+
 <div class="container">
     <h2>Book Metadata Details</h2>
     
@@ -62,6 +76,11 @@
     <!-- Optional button to close the tab or go back -->
     <a href="javascript:window.close();" class="back-btn">Close Window</a>
 </div>
+
+
+ </main>
+    
+    <div th:replace="~{fragments/footer :: footer-panel}"></div>
 
 </body>
 </html>

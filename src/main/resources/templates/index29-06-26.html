@@ -16,18 +16,21 @@
 </head>
 <body>
 
- 
-      <!-- 1. Insert Header -->
-    <div th:replace="~{fragments/header :: header-panel}"></div>
-    
-     <!-- 2. Insert Left Sidebar Panel -->
-    <div th:replace="~{fragments/sidebar :: sidebar-panel}"></div>
+    <h2>Book Directory Search</h2>
 
+    <!-- A to Z Navigation Links -->
+    <div class="alphabet-container">
+        <a href="/books" class="letter-link" th:classappend="${selectedLetter == null} ? 'active-letter'">All</a>
+        
+        <a th:each="l : ${alphabet}" 
+           th:href="@{/books(letter=${l})}" 
+           th:text="${l}"
+           class="letter-link"
+           th:classappend="${selectedLetter == l} ? 'active-letter'">
+        </a>
+    </div>
 
-
-
-	 <main style="margin-left: 280px; padding: 15px;">
-
+    <h3 th:if="${selectedLetter}" th:text="'Results starting with: ' + ${selectedLetter}"></h3>
 
     <!-- Results Table -->
     <table>
@@ -35,33 +38,20 @@
             <tr>
                 <th>ID</th>
                 <th>Book Title</th>
-                <th>Author Name</th>
-                <th>Creator</th>
-                <th>Subject</th>
                 <th>Author</th>
-                <th>Total Page</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="book : ${books}">
                 <td th:text="${book.id}">1</td>
-                <td> <a th:href="@{/books/details/{id}(id=${book.id})}" target="_blank" th:text="${book.title}">Book Title</a></td>
+                <td th:text="${book.title}">Book Title</td>
                 <td th:text="${book.author}">Author Name</td>
-                <td th:text="${book.creator}">Creator</td>
-                <td th:text="${book.subject}">Subject</td>
-                <td th:text="${book.library}">Library</td>
-                <td th:text="${book.totalPages}">Total Page</td>
             </tr>
             <tr th:if="${#lists.isEmpty(books)}">
                 <td colspan="3" style="text-align: center; color: #777;">No books found starting with this letter.</td>
             </tr>
         </tbody>
     </table>
-    
-    
-     </main>
-    
-    <div th:replace="~{fragments/footer :: footer-panel}"></div>
 
 </body>
 </html>
