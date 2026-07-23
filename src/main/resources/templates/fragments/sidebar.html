@@ -1,10 +1,18 @@
 <div th:fragment="sidebar-panel">
     <aside style="width: 250px; float: left; background: #f4f4f4; padding: 15px;">
         <ul>
-            <li><a href="/index">Dashboard</a></li>
-            <li><a href="/view">View Items</a></li>
-            <li><a href="/metadata">Metadata</a></li>
-            <li><a href="/display">Display</a></li>
+        
+        
+        
+        
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/product}">Product</a></li>
+            <li><a th:href="@{/store}">Store</a></li>
+            <li><a th:href="@{/view}">View Items</a></li>
+            <li><a th:href="@{/metadata}">Metadata</a></li>
+            <li><a th:href="@{/display}">Display</a></li>
+            
+            
         </ul>
     </aside>
 </div>
