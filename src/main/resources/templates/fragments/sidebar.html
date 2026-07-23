@@ -1,18 +1,60 @@
 <div th:fragment="sidebar-panel">
-    <aside style="width: 250px; float: left; background: #f4f4f4; padding: 15px;">
-        <ul>
-        
-        
-        
-        
+   
+    <style>
+        #sidebar-container {
+            width: 220px; 
+            float: left; 
+            padding: 40px 15px 40px 25px; /* Added generous top/bottom space */
+            box-sizing: border-box;
+        }
+
+        #sidebar-menu {
+            list-style-type: none; 
+            padding: 0; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; /* Increased spacing between items */
+        }
+
+        #sidebar-menu li {
+            margin: 0;
+            padding: 0;
+        }
+
+        #sidebar-menu a {
+            display: block; 
+            padding: 10px 16px; /* Enhanced vertical & horizontal clickable padding */
+            color: #495057; /* Smooth dark charcoal color instead of raw blue */
+            text-decoration: none; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 15px; 
+            font-weight: 500;
+            border-radius: 6px; /* Smooth modern rounded corners */
+            transition: all 0.25s ease-in-out; /* Fluid animation transition */
+        }
+
+        /* Highly aesthetic hover interaction state */
+        #sidebar-menu a:hover {
+            background-color: #0056b3; /* Vibrant corporate blue highlight */
+            color: #ffffff !important; /* Contrasting white text on hover */
+            transform: translateX(4px); /* Sleek subtle shift-to-right animation */
+            box-shadow: 0 4px 12px rgba(0, 86, 179, 0.15); /* Soft premium shadow dropdown */
+        }
+    </style>
+    
+    
+    
+    
+
+    <aside id="sidebar-container">
+        <ul id="sidebar-menu">
             <li><a th:href="@{/}">Home</a></li>
             <li><a th:href="@{/product}">Product</a></li>
             <li><a th:href="@{/store}">Store</a></li>
             <li><a th:href="@{/view}">View Items</a></li>
             <li><a th:href="@{/metadata}">Metadata</a></li>
             <li><a th:href="@{/display}">Display</a></li>
-            
-            
         </ul>
     </aside>
 </div>
